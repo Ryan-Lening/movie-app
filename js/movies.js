@@ -2,29 +2,104 @@
 
 const url = "https://api.themoviedb.org/3/search/movie?api_key="
 const imageUrl ="https://image.tmdb.org/t/p/w500/"
-function getMovies(string){
-    return fetch(`${url}${versionThree}&query=${string}&page=1&include_adult=false`,
+const nowMovie = "https://api.themoviedb.org/3/movie/now_playing?api_key="
+const movieGenre = "https://api.themoviedb.org/3/genre/movie/list?api_key="
+
+
+
+
+
+
+
+
+//****** will populate now playing movies for page loadup***
+var searchedMovies;
+
+
+function getpopMovies(string){
+    return fetch(`${nowMovie}${versionThree}&language=en-US&page=1&include_adult=false`,
         {headers: {'Authorization': 'token' + versionThree}})
         .then(res => res.json())
+
         // .then(console.log)
         .catch(console.error);
-}
-let searchedMovies;
 
-getMovies('titanic').then(movies => {
+}
+getpopMovies().then(movies => {
+    searchedMovies = movies.results
+    console.log(searchedMovies);
+    renderMovies(searchedMovies);
+})
+
+
+//****** event listeners for the navbar ***
+// var userSelectedGenre = " ";
+// function updateMoviesNow(e) {
+//     // e.preventDefault(); // don't submit the form, we just want to update the data
+//     var selectedGenre = userSelectedGenre;
+//     var moviesToDisplay = [];
+//     movies.forEach(function(coffee) {
+//         if(selectedRoast === "all"){
+//             filteredCoffees.push(coffee)
+//         } else if (coffee.roast === selectedRoast) {
+//             filteredCoffees.push(coffee);
+//         }
+//     });
+//     tbody.innerHTML = renderCoffees(filteredCoffees);
+// }
+
+
+
+var input = '';
+    // let movie_search = document.querySelector('#searchbar');
+    // movie_search.addEventListener('click', movieSearch)
+
+var submitBtn = document.getElementById("submit")
+console.log(submitBtn)
+var textInput = document.getElementById("searchbar")
+
+textInput.addEventListener('input', movieSearch)
+submitBtn.addEventListener("click", function(e){
+    e.preventDefault();
+    console.log('i was clciked');
+    getMovies(textInput.value);
+})
+
+
+
+
+
+    // function movieSearch (){
+    //      input = textInput.value
+    //     input = input.toLowerCase();
+    //     console.log(input);
+    //     getMovies(input);
+    //
+    // }
+
+
+
+// ****** searchers movies based titles in string format.. could be used for a search bar*****
+function getMovies(input){
+    console.log(input)
+     fetch(`${url}${versionThree}&query=${input}&page=1&include_adult=false`,
+        {headers: {'Authorization': 'token' + versionThree}})
+        .then(res => console.log(res.json()))
+        .catch(console.error);
+}
+
+
+getMovies(input).then(movies => {
     searchedMovies = movies.results;
-    // console.log(searchedMovies)
-// let html = ``;
-//     for(let movie of searchedMovies){
-//         html += `<div class='card'>`
-//             html += `<img src="${imageUrl}${movie.poster_path}">`
-//             html += `<h3 class='card_header'>${movie.title}</h3>`
-//             html += `<p>${movie.overview}</p>`
-//         html += `</div>`
-//         document.getElementById('movies').html(getMovies)
-//     }
+    console.log(searchedMovies)
     renderMovies(searchedMovies);
 });
+
+
+
+
+
+//*******creating a cards for every single movie populated
 function renderMovies (){
     let html = ``;
     for(let movie of searchedMovies){
