@@ -2,7 +2,7 @@
 
 const url = "https://api.themoviedb.org/3/search/movie?api_key="
 const imageUrl ="https://image.tmdb.org/t/p/w500/"
-const getMovies = function (string){
+function getMovies(string){
     return fetch(`${url}${versionThree}&query=${string}&page=1&include_adult=false`,
         {headers: {'Authorization': 'token' + versionThree}})
         .then(res => res.json())
@@ -28,14 +28,15 @@ getMovies('titanic').then(movies => {
 function renderMovies (){
     let html = ``;
     for(let movie of searchedMovies){
-        html += `<div class='card'>`
-        html += `<img src="${imageUrl}${movie.poster_path}" style="width: 20em">`
-        html += `<h3 class='card_header'>${movie.title}</h3>`
-        html += `<p>${movie.overview}</p>`
-        html += `</div>`
+        html += `<div class='test  card'>
+          <img src="${imageUrl}${movie.poster_path}" style="width: 20em">
+          <h3 class='card_header'>${movie.title}</h3>
+          <p>${movie.overview}</p>
+          </div>`
+
         // document.write(html);
     }
-    document.write(html);
+    document.getElementById('movies').insertAdjacentHTML('afterbegin', html);
 }
     // searchedMovies = movies.results;
     // console.log(searchedMovies)
