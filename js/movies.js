@@ -1,4 +1,20 @@
 "use strict"
+// <!--******LOADING BAR SCRIPT*****-->
+// <!--******LOADING BAR SCRIPT*****-->
+// <!--******LOADING BAR SCRIPT*****-->
+$( "body" ).css('background-color', 'black')
+$( "#movies" ).css('display', 'none')
+$( ".navbar" ).css('display', 'none')
+window.onload = function () {
+    $( "#loading" ).css('display', 'none')
+    $( "#movies" ).css('display', 'block')
+    $( ".navbar" ).css('display', 'block')
+}
+// <!--******LOADING BAR SCRIPT*****-->
+// <!--******LOADING BAR SCRIPT*****-->
+// <!--******LOADING BAR SCRIPT*****-->
+
+
 
 const url = "https://api.themoviedb.org/3/search/movie?api_key="
 const imageUrl ="https://image.tmdb.org/t/p/w500/"
@@ -35,9 +51,13 @@ getPopMovies().then(movies => {
 var submitBtn = document.getElementById("submit")
 submitBtn.addEventListener("click", function(e){
     e.preventDefault();
+    $( "#movies" ).css('display', 'none')
+    $( ".navbar" ).css('display', 'none')
+    $( "#loading" ).css('display', 'block')
     let searchValue = $('#searchbar').val();
     console.log(`This is the function running when button is clicked search value is :${searchValue}`)
     movieSearch(searchValue)
+
 })
 let userInput;
 function movieSearch (value){
@@ -76,6 +96,10 @@ function renderSearchedMovies (input){
         // document.write(html);
     }
     document.getElementById('movies').innerHTML = html;
+        $( "#loading" ).css('display', 'none')
+        $( "#movies" ).css('display', 'block')
+        $( ".navbar" ).css('display', 'block')
+
 }
 
 
