@@ -87,19 +87,39 @@ function getSearchedMovies(input){
 function renderSearchedMovies (input){
     let html = ``;
     for(let movie of input){
-        html += `<div class='test  card'>
-          <img src="${imageUrl}${movie.poster_path}" style="width: 20em">
-          <h3 class='card_header'>${movie.title}</h3>
-          <p>${movie.overview}</p>
-          </div>`
+        html += `<div class='card col-4 flip-box ' id="testing">
 
-        // document.write(html);
+                 <img src="${imageUrl}${movie.poster_path}" + alt="coffee grounds" class ="w-100">
+                 <h3 class='card_header'>${movie.title}</h3>
+                 <p>${movie.overview}</p>
+                 </div>`
+
     }
     document.getElementById('movies').innerHTML = html;
         $( "#loading" ).css('display', 'none')
-        $( "#movies" ).css('display', 'block')
+        $( "#movies" ).css('display', 'flex')
         $( ".navbar" ).css('display', 'block')
 
 }
 
-
+//
+// function renderSearchedMovies (input){
+//     let html = ``;
+//     for(let movie of input){html = `<div class="movies flip-box col-4">
+//         <div class="flip-box-inner">
+//             <div class="flip-box-front">
+//                 <img src="${imageUrl}${movie.poster_path}" style="width: 20em">
+//             </div>
+//             <div class="flip-box-back">
+//                 <h5>${movie.title}</h5>
+//                 <p>${movie.overview}</p>
+//                 </div>
+//              </div>;
+//     </div>`
+//     }
+//     return html;
+//     document.getElementById('movies').innerHTML = html;
+//     $( "#loading" ).css('display', 'none')
+//     $( "#movies" ).css('display', 'block')
+//     $( ".navbar" ).css('display', 'block')
+// }
