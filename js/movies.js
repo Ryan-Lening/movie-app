@@ -1,4 +1,5 @@
 "use strict"
+
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
@@ -7,7 +8,7 @@ $( "#movies" ).css('display', 'none')
 $( ".navbar" ).css('display', 'none')
 window.onload = function () {
     $( "#loading" ).css('display', 'none')
-    $( "#movies" ).css('display', 'block')
+    $( "#movies" ).css('display', 'flex')
     $( ".navbar" ).css('display', 'block')
 }
 // <!--******LOADING BAR SCRIPT*****-->
@@ -15,20 +16,113 @@ window.onload = function () {
 // <!--******LOADING BAR SCRIPT*****-->
 
 
+//************************************************************
+// *********Movie Genres with id code to display genres *******
+//************************************************************
+
+const keptMovieGenres = [
+    {
+        "id": 28,
+        "name": "Action"
+    },
+    {
+        "id": 12,
+        "name": "Adventure"
+    },
+    {
+        "id": 16,
+        "name": "Animation"
+    },
+    {
+        "id": 35,
+        "name": "Comedy"
+    },
+    {
+        "id": 80,
+        "name": "Crime"
+    },
+    {
+        "id": 99,
+        "name": "Documentary"
+    },
+    {
+        "id": 18,
+        "name": "Drama"
+    },
+    {
+        "id": 10751,
+        "name": "Family"
+    },
+    {
+        "id": 14,
+        "name": "Fantasy"
+    },
+    {
+        "id": 36,
+        "name": "History"
+    },
+    {
+        "id": 27,
+        "name": "Horror"
+    },
+    {
+        "id": 10402,
+        "name": "Music"
+    },
+    {
+        "id": 9648,
+        "name": "Mystery"
+    },
+    {
+        "id": 10749,
+        "name": "Romance"
+    },
+    {
+        "id": 878,
+        "name": "Science Fiction"
+    },
+    {
+        "id": 10770,
+        "name": "TV Movie"
+    },
+    {
+        "id": 53,
+        "name": "Thriller"
+    },
+    {
+        "id": 10752,
+        "name": "War"
+    },
+    {
+        "id": 37,
+        "name": "Western"
+    }
+]
+//************************************************************
+// *********Movie Genres with id code to display genres *******
+//************************************************************
+
+
+
+//************************************************************
+// ************ Constant URL's for Api Requests **************
+//************************************************************
 
 const url = "https://api.themoviedb.org/3/search/movie?api_key="
 const imageUrl ="https://image.tmdb.org/t/p/w500/"
 const nowMovie = "https://api.themoviedb.org/3/movie/now_playing?api_key="
 const movieGenre = "https://api.themoviedb.org/3/genre/movie/list?api_key="
 
+//************************************************************
+// ************ Constant URL's for Api Requests **************
+//************************************************************
 
 
 
-
-
-
-
+//************************************************************
 //****** will populate now playing movies for page loadup***
+//************************************************************
+
 let popularMovies;
 function getPopMovies(string){
     return fetch(`${nowMovie}${versionThree}&language=en-US&page=1&include_adult=false`,
@@ -45,8 +139,14 @@ getPopMovies().then(movies => {
     renderSearchedMovies(popularMovies);
 })
 
+//************************************************************
+//****** will populate now playing movies for page loadup***
+//************************************************************
+
+
+
 //********************************************************************************
-//***************************SEARCHED CODE AND RENDERING**************************
+//***************************SEARCHED USERS INPUT AND RENDERING*******************
 //********************************************************************************
 var submitBtn = document.getElementById("submit")
 submitBtn.addEventListener("click", function(e){
@@ -81,26 +181,79 @@ function getSearchedMovies(input){
 }
 
 //********************************************************************************
-//********************************************************************************
+//***************************SEARCHED USERS INPUT AND RENDERING*******************
 //********************************************************************************
 
+
+
+//********************************************************************************
+//***************************HTML BUILD TTO RENDER MOVIE DATA*********************
+//********************************************************************************
 function renderSearchedMovies (input){
     let html = ``;
+        let test = 0;
     for(let movie of input){
+
         html += `<div class='card col-4 flip-box ' id="testing">
 
-                 <img src="${imageUrl}${movie.poster_path}" + alt="coffee grounds" class ="w-100">
-                 <h3 class='card_header'>${movie.title}</h3>
-                 <p>${movie.overview}</p>
+                 <img src="${imageUrl}${movie.poster_path}" + alt="movie title" class ="w-100">
+                 <h5 class='card_header'>${movie.title}</h5>
+                 <p id="overviewParagraph${test}"> ${movie.overview}</p>
                  </div>`
-
+                test +=1;
     }
     document.getElementById('movies').innerHTML = html;
         $( "#loading" ).css('display', 'none')
         $( "#movies" ).css('display', 'flex')
         $( ".navbar" ).css('display', 'block')
-
+        getMovieGenres(input);
 }
+//********************************************************************************
+//***************************HTML BUILD TTO RENDER MOVIE DATA*********************
+//********************************************************************************
+
+
+
+//************************************************************
+//**********Genre Generator after movies rendered*************
+//************************************************************
+let getMovieGenres = function (input){
+    let html;
+    let test = 0;
+    for (let movie of input){
+        html = `<p> Genre : `
+        let currentMovieGenreIds = movie.genre_ids;
+        // console.log(`this ${movie.title} genre ids ${currentMovieGenreIds[1]}`);
+        let x = 0;
+
+        for (let i = 0; i <= keptMovieGenres.length; i++) {
+        // console.log(`this is keptMovieGenres[i].id for${movie.title} ${keptMovieGenres[i].id}`)
+        if (currentMovieGenreIds[x] === undefined){
+            break
+        }
+        if (keptMovieGenres[i] === undefined){
+            break
+        }
+        if (currentMovieGenreIds[x] === keptMovieGenres[i].id) {
+            console.log(`This is ${movie.title} ids ${currentMovieGenreIds[x]} this is the kept genre id ${keptMovieGenres[i].name}`)
+            html += `${keptMovieGenres[i].name} `
+            i=0;
+            x+=1;
+        }
+
+        }
+        document.getElementById("overviewParagraph" + test.toString()).innerHTML += `${html} </p>`;
+        test += 1;
+    }
+};
+//************************************************************
+//**********Genre Generator after movies rendered*************
+//************************************************************
+
+
+
+
+
 
 //
 // function renderSearchedMovies (input){
