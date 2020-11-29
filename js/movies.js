@@ -3,13 +3,16 @@
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
+
 $( "body" ).css('background-color', 'black')
+$( ".carousel slide").css('display', 'none')
 $( "#movies" ).css('display', 'none')
 $( ".navbar" ).css('display', 'none')
 window.onload = function () {
     $( "#loading" ).css('display', 'none')
     $( "#movies" ).css('display', 'flex')
     $( ".navbar" ).css('display', 'block')
+    $( ".carousel slide").css('display', 'block')
 }
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
@@ -153,6 +156,7 @@ submitBtn.addEventListener("click", function(e){
     e.preventDefault();
     $( "#movies" ).css('display', 'none')
     $( ".navbar" ).css('display', 'none')
+    $( "#carouselExampleIndicators").css('display', 'none')
     $( "#loading" ).css('display', 'block')
     let searchValue = $('#searchbar').val();
     console.log(`This is the function running when button is clicked search value is :${searchValue}`)
@@ -196,7 +200,7 @@ function renderSearchedMovies (input){
 
         html += `<div class='card col-4 flip-box ' id="testing">
 
-                 <img src="${imageUrl}${movie.poster_path}" + alt="movie title" class ="w-100">
+                 <img class ="w-100" src="${imageUrl}${movie.poster_path}" +  alt="Not Found" onerror=this.src="img/error.jpg">
                  <h5 class='card_header'>${movie.title}</h5>
                  <p id="overviewParagraph${test}"> ${movie.overview}</p>
                  </div>`
@@ -221,7 +225,7 @@ let getMovieGenres = function (input){
     let html;
     let test = 0;
     for (let movie of input){
-        html = `<p> Genre : `
+        html = `<p id="genreID"><strong>Genre : </strong> `
         let currentMovieGenreIds = movie.genre_ids;
         // console.log(`this ${movie.title} genre ids ${currentMovieGenreIds[1]}`);
         let x = 0;
