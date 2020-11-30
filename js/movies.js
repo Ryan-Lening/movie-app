@@ -251,14 +251,14 @@ function renderSearchedMovies (input){
         html += `<div class='card col-4 flip-box card${test}' id="testing">
                  <form>
                  <img class ="w-100" src="${imageUrl}${movie.poster_path}" + alt="Not Found" onerror=this.src="img/error.jpg">
-                 <h5 class='card_header'>${movie.title}</h5>
+                 <h5 class='card_header'><strong>${movie.title}</strong></h5>
                  <h6 class='card_header'><strong>Overview</strong></h6>
                  <p contenteditable="false" class="paragraph" id="overviewParagraph${test}"> ${movie.overview}</p>
                   <p contenteditable="false" class="paragraph"> <strong>Rating: </strong>${htmlrating}</p>
                   
                   <p contenteditable="false" class="paragraph"> <strong>Release Date:</strong> ${movie.release_date}</p>
-                 <button  class="editMovieButton">Edit Movie</button>
-                 <button class="deleteMovieButton">Delete Movie</button>
+                 <button  class="editMovieButton added-style-button">Edit Movie</button>
+                 <button class="deleteMovieButton added-style-button">Delete Movie</button>
                  </form> 
                  </div>`
                 test +=1;

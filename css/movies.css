@@ -95,7 +95,8 @@
    justify-content: space-evenly;
 }
 .card{
-
+    background-color: #192526;
+    color: #dddddd;
     margin: 2% -4% 3% -4%;
 }
 /******carousel images centering ******/
@@ -166,4 +167,9 @@ h5 {
 .stars-inner::before {
     content: "\f005 \f005 \f005 \f005 \f005";
     color: #f8ce0b;
+}
+
+.added-style-button{
+  background-color: #192526;
+    color: #dddddd;
 }
