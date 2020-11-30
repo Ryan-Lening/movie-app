@@ -3,16 +3,19 @@
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
+$( "#carouselExampleIndicators").css('display', 'none')
 
 $( "body" ).css('background-color', 'black')
-$( ".carousel slide").css('display', 'none')
+
 $( "#movies" ).css('display', 'none')
+
 $( ".navbar" ).css('display', 'none')
+
 window.onload = function () {
     $( "#loading" ).css('display', 'none')
     $( "#movies" ).css('display', 'flex')
     $( ".navbar" ).css('display', 'block')
-    $( ".carousel slide").css('display', 'block')
+    $( "#carouselExampleIndicators").css('display', 'block')
 }
 // <!--******LOADING BAR SCRIPT*****-->
 // <!--******LOADING BAR SCRIPT*****-->
@@ -149,9 +152,9 @@ getPopMovies().then(movies => {
 
 
 //********************************************************************************
-//***************************SEARCHED USERS INPUT AND RENDERING*******************
+//********************SEARCHED USERS INPUT AND RENDERING**************************
 //********************************************************************************
-var submitBtn = document.getElementById("submit")
+const submitBtn = document.getElementById("submit")
 submitBtn.addEventListener("click", function(e){
     e.preventDefault();
     $( "#movies" ).css('display', 'none')
@@ -163,15 +166,33 @@ submitBtn.addEventListener("click", function(e){
     movieSearch(searchValue)
 
 })
+//********************************************************************************
+//*********SEARCHED USERS INPUT AND RENDERING WHEN USER HITS ENTER KEY************
+//********************************************************************************
+document.querySelector('#searchbar').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        $("#movies").css('display', 'none')
+        $(".navbar").css('display', 'none')
+        $("#carouselExampleIndicators").css('display', 'none')
+        $("#loading").css('display', 'block')
+        let searchValue = $('#searchbar').val();
+        console.log(`This is the function running when the user hit enter instead of clicks :${searchValue}`)
+        movieSearch(searchValue)
+    }
+});
+//********************************************************************************
+//*********SEARCHED USERS INPUT AND RENDERING WHEN USER HITS ENTER KEY************
+//********************************************************************************
+
 let userInput;
 function movieSearch (value){
     userInput = value.toLowerCase();
-    console.log(`This is the function running 2nd in line :${userInput}`)
+    // console.log(`This is the function running 2nd in line :${userInput}`)
     getSearchedMovies(userInput)
 }
 let searchedMovies;
 function getSearchedMovies(input){
-    console.log(`This is the getSearchedMovies Function looking for value :${input}`)
+    // console.log(`This is the getSearchedMovies Function looking for value :${input}`)
         fetch(`${url}${versionThree}&query=${input}&page=1&include_adult=false`,
         {headers: {'Authorization': 'token' + versionThree}})
         .then(res => res.json())
@@ -198,24 +219,59 @@ function renderSearchedMovies (input){
         let test = 0;
     for(let movie of input){
 
-        html += `<div class='card col-4 flip-box ' id="testing">
-
-                 <img class ="w-100" src="${imageUrl}${movie.poster_path}" +  alt="Not Found" onerror=this.src="img/error.jpg">
+        html += `<div class='card col-4 flip-box card${test}' id="testing">
+                 <form>
+                 <img class ="w-100" src="${imageUrl}${movie.poster_path}" + alt="Not Found" onerror=this.src="img/error.jpg">
                  <h5 class='card_header'>${movie.title}</h5>
-                 <p id="overviewParagraph${test}"> ${movie.overview}</p>
+                 <p value='text' class="paragraph" id="overviewParagraph${test}"> ${movie.overview}</p>
+                 <button class="editMovieButton">Edit Movie</button>
+                 <button class="deleteMovieButton">Delete Movie</button>
+                 </form> 
                  </div>`
                 test +=1;
     }
     document.getElementById('movies').innerHTML = html;
         $( "#loading" ).css('display', 'none')
+        // $( "#carouselExampleIndicators").css('display', 'block')
         $( "#movies" ).css('display', 'flex')
         $( ".navbar" ).css('display', 'block')
+
+//************************************************************
+//************************ EDIT BUTTON PRESSED****************
+//************************************************************
+    $('.editMovieButton').click( function (e, input){
+        e.preventDefault();
+
+        $('.paragraph').contentEditable = true;
+        // $(this).parent().toggleAttribute("readonly");
+        console.log("edit button clicked")
+        });
+
+
+        // function editP(){
+        // $('.paragraph').contentEditable = true
+        // };
+
+
+
+    $('.deleteMovieButton').click( function (e){
+        e.preventDefault();
+        $(this).parent().parent().css('display', 'none')
+        console.log("delete button clicked")
+    });
+//     document.querySelectorAll('.deleteMovieButton').addEventListener('click', function (e) {
+//         e.preventDefault();
+//         console.log(`This is the delete button getting pressed`);
+//     });
+//************************************************************
+//******************EDIT BUTTON PRESSED***********************
+//************************************************************
+
         getMovieGenres(input);
 }
 //********************************************************************************
 //***************************HTML BUILD TTO RENDER MOVIE DATA*********************
 //********************************************************************************
-
 
 
 //************************************************************
@@ -239,7 +295,7 @@ let getMovieGenres = function (input){
             break
         }
         if (currentMovieGenreIds[x] === keptMovieGenres[i].id) {
-            console.log(`This is ${movie.title} ids ${currentMovieGenreIds[x]} this is the kept genre id ${keptMovieGenres[i].name}`)
+            // console.log(`This is ${movie.title} ids ${currentMovieGenreIds[x]} this is the kept genre id ${keptMovieGenres[i].name}`)
             html += `${keptMovieGenres[i].name} `
             i=0;
             x+=1;
