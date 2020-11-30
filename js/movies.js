@@ -134,14 +134,10 @@ function getPopMovies(string){
     return fetch(`${nowMovie}${versionThree}&language=en-US&page=1&include_adult=false`,
         {headers: {'Authorization': 'token' + versionThree}})
         .then(res => res.json())
-
-        // .then(console.log)
         .catch(console.error);
-
 }
 getPopMovies().then(movies => {
     popularMovies = movies.results
-    console.log(popularMovies);
     renderSearchedMovies(popularMovies);
 })
 
@@ -162,7 +158,6 @@ submitBtn.addEventListener("click", function(e){
     $( "#carouselExampleIndicators").css('display', 'none')
     $( "#loading" ).css('display', 'block')
     let searchValue = $('#searchbar').val();
-    console.log(`This is the function running when button is clicked search value is :${searchValue}`)
     movieSearch(searchValue)
 
 })
@@ -176,7 +171,6 @@ document.querySelector('#searchbar').addEventListener('keypress', function (e) {
         $("#carouselExampleIndicators").css('display', 'none')
         $("#loading").css('display', 'block')
         let searchValue = $('#searchbar').val();
-        console.log(`This is the function running when the user hit enter instead of clicks :${searchValue}`)
         movieSearch(searchValue);
         e.preventDefault();
     }
@@ -191,18 +185,15 @@ function movieSearch (value){
     if (userInput === ""){
         renderSearchedMovies(popularMovies);
     }
-    // console.log(`This is the function running 2nd in line :${userInput}`)
     getSearchedMovies(userInput)
 }
 let searchedMovies;
 function getSearchedMovies(input){
-    // console.log(`This is the getSearchedMovies Function looking for value :${input}`)
         fetch(`${url}${versionThree}&query=${input}&page=1&include_adult=false`,
         {headers: {'Authorization': 'token' + versionThree}})
         .then(res => res.json())
         .then(movies => {
             searchedMovies = movies.results
-            console.log(searchedMovies);
             renderSearchedMovies(searchedMovies);
         })
         .catch(console.error);
@@ -225,7 +216,6 @@ function renderSearchedMovies (input){
 
     for(let movie of input){
         let movieRating = movie.vote_average / 2;
-        console.log(movieRating);
         if(movieRating <= .5) {
         htmlrating = `<i class="fas fa-star-half"></i>`
         }else if(movieRating <= 1) {
@@ -277,7 +267,6 @@ function renderSearchedMovies (input){
 
        $('.editMovieButton').click(function (e){
            e.preventDefault();
-           console.log('pressed edit')
             $('.paragraph').attr('contenteditable', function (i, a){
                 return a === 'true' ? "false":"true";
             })
@@ -288,12 +277,8 @@ function renderSearchedMovies (input){
     $('.deleteMovieButton').click( function (e){
         e.preventDefault();
         $(this).parent().parent().css('display', 'none')
-        console.log("delete button clicked")
     });
-//     document.querySelectorAll('.deleteMovieButton').addEventListener('click', function (e) {
-//         e.preventDefault();
-//         console.log(`This is the delete button getting pressed`);
-//     });
+
 //************************************************************
 //******************EDIT BUTTON PRESSED***********************
 //************************************************************
@@ -313,7 +298,6 @@ let getMovieGenres = function (input){
         let x = 0;
 
         for (let i = 0; i <= keptMovieGenres.length; i++) {
-        // console.log(`this is keptMovieGenres[i].id for${movie.title} ${keptMovieGenres[i].id}`)
         if (currentMovieGenreIds[x] === undefined){
             break
         }
@@ -321,13 +305,11 @@ let getMovieGenres = function (input){
             break
         }
         if (currentMovieGenreIds[x] === keptMovieGenres[i].id) {
-            // console.log(`This is ${movie.title} ids ${currentMovieGenreIds[x]} this is the kept genre id ${keptMovieGenres[i].name}`)
-            html += `${keptMovieGenres[i].name} `
-            i=0;
-            x+=1;
-        }
 
-        }
+            html += `${keptMovieGenres[i].name} `
+            i = 0;
+            x += 1;
+        }}
         document.getElementById("overviewParagraph" + test.toString()).innerHTML += `${html} </p>`;
         test += 1;
     }
@@ -361,16 +343,11 @@ function addMovieFunction(){
                  <button class="deleteNewMovieButton">Delete Movie</button>
                  </form> 
                  </div>`
-    console.log(title);
-    console.log(overview);
-    console.log(genres);
-    console.log(poster.toString());
     document.getElementById('movies').innerHTML += html
 
 
     $('.editNewMovieButton').click(function (e){
         e.preventDefault();
-        console.log('pressed edit')
         $('.makeEditable').attr('contenteditable', function (i, a){
             return a === 'true' ? "false":"true";
         })
@@ -381,7 +358,6 @@ function addMovieFunction(){
     $('.deleteNewMovieButton').click( function (e){
         e.preventDefault();
         $(this).parent().parent().css('display', 'none')
-        console.log("delete button clicked")
     });
 }
 
