@@ -223,8 +223,8 @@ function renderSearchedMovies (input){
                  <form>
                  <img class ="w-100" src="${imageUrl}${movie.poster_path}" + alt="Not Found" onerror=this.src="img/error.jpg">
                  <h5 class='card_header'>${movie.title}</h5>
-                 <p value='text' class="paragraph" id="overviewParagraph${test}"> ${movie.overview}</p>
-                 <button class="editMovieButton">Edit Movie</button>
+                 <p contenteditable="false" class="paragraph" id="overviewParagraph${test}"> ${movie.overview}</p>
+                 <button  class="editMovieButton">Edit Movie</button>
                  <button class="deleteMovieButton">Delete Movie</button>
                  </form> 
                  </div>`
@@ -239,18 +239,16 @@ function renderSearchedMovies (input){
 //************************************************************
 //************************ EDIT BUTTON PRESSED****************
 //************************************************************
-    $('.editMovieButton').click( function (e, input){
-        e.preventDefault();
-
-        $('.paragraph').contentEditable = true;
-        // $(this).parent().toggleAttribute("readonly");
-        console.log("edit button clicked")
-        });
 
 
-        // function editP(){
-        // $('.paragraph').contentEditable = true
-        // };
+
+       $('.editMovieButton').click(function (e){
+           e.preventDefault();
+           console.log('pressed edit')
+            $('.paragraph').attr('contenteditable', function (i, a){
+                return a === 'true' ? "false":"true";
+            })
+                 });
 
 
 
