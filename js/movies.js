@@ -188,6 +188,9 @@ document.querySelector('#searchbar').addEventListener('keypress', function (e) {
 let userInput;
 function movieSearch (value){
     userInput = value.toLowerCase();
+    if (userInput === ""){
+        renderSearchedMovies(popularMovies);
+    }
     // console.log(`This is the function running 2nd in line :${userInput}`)
     getSearchedMovies(userInput)
 }
@@ -217,14 +220,43 @@ function getSearchedMovies(input){
 //********************************************************************************
 function renderSearchedMovies (input){
     let html = ``;
-        let test = 0;
+    let test = 0;
+    let htmlrating = ``;
+
     for(let movie of input){
+        let movieRating = movie.vote_average / 2;
+        console.log(movieRating);
+        if(movieRating <= .5) {
+        htmlrating = `<i class="fas fa-star-half"></i>`
+        }else if(movieRating <= 1) {
+            htmlrating = `<i class="fas fa-star"></i>`
+        } else if(movieRating <= 1.5) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star-half"></i>`
+        }else if(movieRating <= 2) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }else if(movieRating <= 2.5) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i>`
+        }else if(movieRating <= 3) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }else if(movieRating <= 3.5) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i>`
+        }else if(movieRating <= 4) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }else if(movieRating <= 4.5) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i>`
+        }else if(movieRating <= 5) {
+            htmlrating = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }
 
         html += `<div class='card col-4 flip-box card${test}' id="testing">
                  <form>
                  <img class ="w-100" src="${imageUrl}${movie.poster_path}" + alt="Not Found" onerror=this.src="img/error.jpg">
                  <h5 class='card_header'>${movie.title}</h5>
+                 <h6 class='card_header'><strong>Overview</strong></h6>
                  <p contenteditable="false" class="paragraph" id="overviewParagraph${test}"> ${movie.overview}</p>
+                  <p contenteditable="false" class="paragraph"> <strong>Rating: </strong>${htmlrating}</p>
+                  
+                  <p contenteditable="false" class="paragraph"> <strong>Release Date:</strong> ${movie.release_date}</p>
                  <button  class="editMovieButton">Edit Movie</button>
                  <button class="deleteMovieButton">Delete Movie</button>
                  </form> 
@@ -268,10 +300,6 @@ function renderSearchedMovies (input){
 
         getMovieGenres(input);
 }
-//********************************************************************************
-//***************************HTML BUILD TTO RENDER MOVIE DATA*********************
-//********************************************************************************
-
 
 //************************************************************
 //**********Genre Generator after movies rendered*************
