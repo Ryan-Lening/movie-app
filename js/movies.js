@@ -177,7 +177,8 @@ document.querySelector('#searchbar').addEventListener('keypress', function (e) {
         $("#loading").css('display', 'block')
         let searchValue = $('#searchbar').val();
         console.log(`This is the function running when the user hit enter instead of clicks :${searchValue}`)
-        movieSearch(searchValue)
+        movieSearch(searchValue);
+        e.preventDefault();
     }
 });
 //********************************************************************************
@@ -281,7 +282,6 @@ let getMovieGenres = function (input){
     for (let movie of input){
         html = `<p id="genreID"><strong>Genre : </strong> `
         let currentMovieGenreIds = movie.genre_ids;
-        // console.log(`this ${movie.title} genre ids ${currentMovieGenreIds[1]}`);
         let x = 0;
 
         for (let i = 0; i <= keptMovieGenres.length; i++) {
@@ -308,10 +308,54 @@ let getMovieGenres = function (input){
 //**********Genre Generator after movies rendered*************
 //************************************************************
 
+function openForm() {
+    document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+}
+
+
+function addMovieFunction(){
+    let title = $("#newMovieTitle").val();
+    let overview = $("#newMovieOverview").val();
+    let genres = $("#newMovieGenres").val();
+    let poster = $("#newMoviePoster").val();
+   let html = ``
+        html += `<div class='card col-4 flip-box card' id="testing">
+                 <form>
+                 <img class ="w-100" src="${poster}" + alt="Not Found" onerror=this.src="img/error.jpg">
+                 <h5 class='card_header makeEditable'>${title}</h5>
+                 <p contenteditable="false" class="makeEditable" id="overviewParagraph">Overview: ${overview}</p>
+                 <p class="makeEditable">Genres: ${genres}</p>
+                 <button  class="editNewMovieButton">Edit Movie</button>
+                 <button class="deleteNewMovieButton">Delete Movie</button>
+                 </form> 
+                 </div>`
+    console.log(title);
+    console.log(overview);
+    console.log(genres);
+    console.log(poster.toString());
+    document.getElementById('movies').innerHTML += html
+
+
+    $('.editNewMovieButton').click(function (e){
+        e.preventDefault();
+        console.log('pressed edit')
+        $('.makeEditable').attr('contenteditable', function (i, a){
+            return a === 'true' ? "false":"true";
+        })
+    });
 
 
 
-
+    $('.deleteNewMovieButton').click( function (e){
+        e.preventDefault();
+        $(this).parent().parent().css('display', 'none')
+        console.log("delete button clicked")
+    });
+}
 
 //
 // function renderSearchedMovies (input){

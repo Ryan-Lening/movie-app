@@ -90,6 +90,37 @@
 
     <div id="movies" class="container row " style="display: flex"></div>
 
+
+
+
+
+
+<div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container">
+
+        <label><b>Movie Poster</b></label>
+        <input id="newMoviePoster" type="text" placeholder="Enter URL for Image" name="poster">
+
+        <label><b>Title</b></label>
+        <input id="newMovieTitle" type="text" placeholder="Enter Title" name="title" required>
+
+        <label><b>Overview</b></label>
+        <br>
+        <textarea id="newMovieOverview" placeholder="Enter Overview" name="overview"></textarea>
+        <br>
+
+        <label><b>Genres:</b></label>
+        <input id="newMovieGenres" type="text" placeholder="Enter Genres" name="genres">
+
+        <button type="button" class="btn" onclick="addMovieFunction()">Add Movie</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
+<button id="addMovieButton" type="button" class="btn cancel" onclick="openForm()">Add Movie</button>
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
